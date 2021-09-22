@@ -42,6 +42,18 @@ export interface ClientUser extends User {
 }
 ````
 
+## Using the Type package
+
+For using a private package, we should add the package to the dependencies of package.json
+You should add to dependencies inside the package which will consume it:
+
+```json
+  "dependencies": {
+    "@nla-tech/motion-report.types": "^1.0.0",
+    // ... Other dependencies
+  },
+```
+
 
 ## Adding a new Type
 
