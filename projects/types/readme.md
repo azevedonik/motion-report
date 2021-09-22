@@ -1,5 +1,7 @@
 # Type Repo
 
+## Description
+
 This repository is responsible for storing and defining common object values and types.
 
 Sometimes we want to have a User object with different properties in client and server but they will always have common properties.
@@ -38,6 +40,15 @@ export interface ClientUser extends User {
     function setToken(jwt: string): void;
     // ... Etc
 }
+````
 
 
+## Adding a new Type
 
+In order to add a new type, we should create the type with only the properties which will be shared across all the systems which will use it.
+
+After adding it, we should rebuild the package
+
+```shell
+yarn build
+```
