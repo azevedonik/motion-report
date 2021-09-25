@@ -1,26 +1,36 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CommonEntity } from 'src/common/common-entity.entity';
+import { Repository } from 'typeorm';
 import { CreateExamDto } from './dto/create-exam.dto';
 import { UpdateExamDto } from './dto/update-exam.dto';
+import { Exam } from './entities/exam.entity';
 
 @Injectable()
-export class ExamService {
+export class ExamService extends CommonEntity {
+  constructor(
+    @InjectRepository(Exam) private examRepository: Repository<Exam>,
+  ) {
+    super();
+  }
   create(createExamDto: CreateExamDto) {
-    return 'This action adds a new exam';
+    const exam = this.examRepository.create(createExamDto);
+    return this.examRepository.save(exam);
   }
 
   findAll() {
-    return `This action returns all exam`;
+    return this.examRepository.findOne();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} exam`;
+    return this.examRepository.findOne(id);
   }
 
   update(id: number, updateExamDto: UpdateExamDto) {
-    return `This action updates a #${id} exam`;
+    return this.examRepository.update(id, updateExamDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} exam`;
+    return this.examRepository.delete(id);
   }
 }
