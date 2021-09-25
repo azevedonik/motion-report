@@ -3,9 +3,14 @@
   "version": "1.0.0",
   "author": "nikolas <azevedonik@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "build-all" : "yarn workspaces foreach run build",
+    "build" : "yarn build"
+  },
   "devDependencies": {
-    "@types/jest": "^26.0.15",
-    "@types/node": "^12.0.0"
+    "@types/node": "^12.0.0",
+    "ts-jest": "^27.0.5",
+    "typescript": "^4.4.3"
   },
   "workspaces": {
     "packages": [

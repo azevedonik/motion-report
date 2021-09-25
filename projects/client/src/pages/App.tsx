@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Notes from './Notes';
+import Report from './Report';
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@emotion/react';
 import Layout from '../components/Layout';
@@ -15,7 +15,7 @@ function App() {
         <Layout>
           <Switch>
             <Route exact path='/'>
-              <Notes />
+              <Report />
             </Route>
             <Route path='/create'>
               <CreatePatient />

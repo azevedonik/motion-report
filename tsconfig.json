@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "es2017",
+    "module": "commonjs",
     "allowJs": true,
     "declaration": true,
-    "emitDeclarationOnly": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
   },
