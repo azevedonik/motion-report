@@ -1,5 +1,5 @@
 import { BaseRepositoryRest } from '../common/baseRepositoryRest';
-import { API_ROUTES } from '@nla-tech/motion-report.config';
+import { API_ROUTES } from '@nla-tech/main.config';
 
 export interface Test {
   message: string;

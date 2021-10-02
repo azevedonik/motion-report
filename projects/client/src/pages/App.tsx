@@ -5,6 +5,7 @@ import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@emotion/react';
 import Layout from '../components/Layout';
 import CreatePatient from './CreatePatient';
+import ImageMapGenerator from './ImageMapGenerator';
 
 const theme = createTheme({});
 
@@ -19,6 +20,9 @@ function App() {
             </Route>
             <Route path='/create'>
               <CreatePatient />
+            </Route>
+            <Route path='/image-map'>
+              <ImageMapGenerator />
             </Route>
           </Switch>
         </Layout>

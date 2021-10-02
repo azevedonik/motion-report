@@ -24,13 +24,14 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/typeorm": "^8.0.2",
-    "@nla-tech/motion-report.config": "^1.0.0",
+    "@nla-tech/main.config": "^1.0.0",
     "@nla-tech/motion-report.types": "^1.0.0",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "typeorm": "^0.2.37"
+    "typeorm": "^0.2.37",
+    "typescript": "^4.4.3"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
@@ -52,7 +53,7 @@
     "ts-loader": "^9.2.3",
     "ts-node": "^10.0.0",
     "tsconfig-paths": "^3.10.1",
-    "typescript": "^4.3.5"
+    "typescript": "^4.4.3"
   },
   "jest": {
     "moduleFileExtensions": [

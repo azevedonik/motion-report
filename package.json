@@ -1,20 +1,19 @@
 {
-  "name": "motion-report",
+  "name": "root",
   "version": "1.0.0",
-  "author": "nikolas <azevedonik@gmail.com>",
-  "license": "MIT",
+  "author": "NLA Tech",
   "scripts": {
-    "build-all" : "yarn workspaces foreach run build",
-    "build" : "yarn build"
+    "build-all" : "lerna exec 'yarn build'",
+    "reset" : "rm -rf ./node_modules &&  lerna clean --yes && lerna exec -- rm -rf ./dist && yarn && yarn build-all"
   },
   "devDependencies": {
-    "@types/node": "^12.0.0",
+    "lerna": "^4.0.0",
     "ts-jest": "^27.0.5",
     "typescript": "^4.4.3"
   },
   "workspaces": {
     "packages": [
-      "projects/**/*"
+      "projects/*"
     ]
   },
   "private": true

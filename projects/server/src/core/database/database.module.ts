@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { GLOBAL_CONFIG } from '@nla-tech/motion-report.config';
+import { GLOBAL_CONFIG } from '@nla-tech/main.config';
 
 const DB_CONFIG = GLOBAL_CONFIG.POSTGRES;
 
