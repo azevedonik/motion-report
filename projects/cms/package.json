@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "develop": "yarn directus start",
-    "dump:sequeelize" : "ts-node scripts/generateDbModels.ts"
+    "build": "yarn dump:model",
+    "dump:model": "directus schema snapshot ./schema.yaml --format yaml",
+    "migrate:model": "directus schema apply /path/to/schema.yaml"
   },
   "keywords": [],
   "author": "",
@@ -15,9 +17,6 @@
     "@nla-tech/main.config": "^1.0.0",
     "directus": "^9.0.0-rc.95",
     "pg": "^8.7.1",
-    "pg-hstore": "^2.3.4",
-    "sequelize": "^6.6.5",
-    "sequelize-auto": "^0.8.4",
     "sqlite3": "^5.0.2"
   }
 }
