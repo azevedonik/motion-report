@@ -5,7 +5,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import DatePicker from '@mui/lab/DatePicker';
 import { Box } from '@mui/system';
-import { useInput } from '../hooks/useInput';
+import { useInput } from '../../hooks/useInput';
 
 interface CreatePatientProps {}
 

@@ -1,6 +1,5 @@
 const initialState = {
-  posts: [],
-  dogs: null,
+  
 };
 
 const rootReducer = (state = initialState, action: any) => {

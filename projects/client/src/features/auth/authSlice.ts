@@ -1,7 +1,27 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../../store';
 
-const login = createAsyncThunk('auth/login', async (username: string) => {
-  const response = await fetch('https://google.com.br');
-  return response.json();
+interface AuthState {
+  isAuth: boolean;
+}
+
+const initialState: AuthState = {
+  isAuth: false,
+};
+
+export const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    login: (state) => {
+      state.isAuth = true;
+    },
+    logout: (state) => {
+      state.isAuth = false;
+    },
+  },
 });
 
+export const { login, logout } = authSlice.actions;
+export const selectAuth = (state: RootState) => state.auth;
+export default authSlice.reducer;

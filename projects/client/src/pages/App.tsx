@@ -1,11 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Report from './Report';
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@emotion/react';
-import Layout from '../components/Layout';
-import CreatePatient from './CreatePatient';
-import ImageMapGenerator from './ImageMapGenerator';
+import SignIn from './SignIn';
+import PrivateRoute from '../components/PrivateRoute';
+import Report from './BAK/Report';
 
 const theme = createTheme({});
 
@@ -13,19 +12,11 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <Layout>
           <Switch>
-            <Route exact path='/'>
-              <Report />
-            </Route>
-            <Route path='/create'>
-              <CreatePatient />
-            </Route>
-            <Route path='/image-map'>
-              <ImageMapGenerator />
-            </Route>
+            <Route exact component={SignIn} path='/login' />
+            <Route exact component={SignIn} path='/signup' />
+            <PrivateRoute component={Report} path='/report' />
           </Switch>
-        </Layout>
       </Router>
     </ThemeProvider>
   );

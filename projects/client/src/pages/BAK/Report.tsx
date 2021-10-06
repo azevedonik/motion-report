@@ -1,6 +1,7 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Grid } from '@mui/material';
 import { Line } from 'react-chartjs-2';
+import Layout from '../../components/Layout';
 
 interface ReportProps {
   reportId?: string;
@@ -22,9 +23,11 @@ const data = {
 
 const Report: FunctionComponent<ReportProps> = () => {
   return (
-    <Grid container spacing={2}>
-      <Line data={data} />
-    </Grid>
+    <Layout>
+      <Grid container spacing={2}>
+        <Line data={data} />
+      </Grid>
+    </Layout>
   );
 };
 

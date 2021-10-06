@@ -1,0 +1,23 @@
+{
+  "name": "cms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "develop": "yarn directus start",
+    "dump:sequeelize" : "ts-node scripts/generateDbModels.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@nla-tech/main.config": "^1.0.0",
+    "directus": "^9.0.0-rc.95",
+    "pg": "^8.7.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.6.5",
+    "sequelize-auto": "^0.8.4",
+    "sqlite3": "^5.0.2"
+  }
+}

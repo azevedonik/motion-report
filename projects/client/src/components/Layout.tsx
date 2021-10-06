@@ -3,6 +3,7 @@ import { Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar } 
 import { Box } from '@mui/system';
 import { FunctionComponent } from 'react';
 import { useHistory } from 'react-router';
+import { useAppSelector } from '../hooks';
 
 const drawerWidth = 240;
 interface MenuItem {
@@ -15,6 +16,8 @@ interface LayoutProps {}
 
 const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
   const history = useHistory();
+  const authState = useAppSelector((state) => state.auth);
+
   const menuItems: MenuItem[] = [
     {
       text: 'Pacientes',
@@ -29,31 +32,34 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
   ];
   return (
     <Box sx={{ display: 'flex' }}>
-      <Drawer
-        variant='permanent'
-        anchor='left'
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
+      {authState.isAuth && (
+        <Drawer
+          variant='permanent'
+          anchor='left'
+          sx={{
             width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-      >
-        <Toolbar />
-        <Divider />
-        <List>
-          {menuItems.map((item) => {
-            return (
-              <ListItem button key={item.text} onClick={() => history.push(item.path)}>
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} />
-              </ListItem>
-            );
-          })}
-        </List>
-      </Drawer>
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              width: drawerWidth,
+              boxSizing: 'border-box',
+            },
+          }}
+        >
+          <Toolbar />
+          <Divider />
+          <List>
+            {menuItems.map((item) => {
+              return (
+                <ListItem button key={item.text} onClick={() => history.push(item.path)}>
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.text} />
+                </ListItem>
+              );
+            })}
+          </List>
+        </Drawer>
+      )}
+
       <Box
         component='main'
         sx={{
