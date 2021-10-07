@@ -1,0 +1,2388 @@
+version: 1
+directus: 9.0.0-rc.95
+collections:
+  - collection: application_action
+    meta:
+      collection: application_action
+      icon: login
+      note: null
+      display_template: '{{action}}'
+      hidden: false
+      singleton: false
+      translations: null
+      archive_field: action
+      archive_app_filter: false
+      archive_value: null
+      unarchive_value: null
+      sort_field: null
+      accountability: null
+      color: '#10DAA8'
+      item_duplication_fields: null
+    schema:
+      name: application_action
+      sql: >-
+        CREATE TABLE `application_action` (`id` integer not null primary key
+        autoincrement, `action` varchar(255) null default null, `target`
+        varchar(255) null default null, `href` varchar(255) null default null)
+  - collection: speakers
+    meta:
+      collection: speakers
+      icon: school
+      note: null
+      display_template: null
+      hidden: false
+      singleton: false
+      translations: null
+      archive_field: name
+      archive_app_filter: false
+      archive_value: archived
+      unarchive_value: draft
+      sort_field: sort
+      accountability: all
+      color: '#F7971C'
+      item_duplication_fields: null
+    schema:
+      name: speakers
+      sql: >-
+        CREATE TABLE "speakers" (`id` integer PRIMARY KEY AUTOINCREMENT NOT
+        NULL, `sort` integer NULL DEFAULT null, `date_created` datetime NULL
+        DEFAULT null, `thumbnail` varchar(36) NULL DEFAULT null, `name`
+        varchar(255) NOT NULL DEFAULT null, `description` text NULL DEFAULT
+        null, CONSTRAINT `speakers_thumbnail_foreign` FOREIGN KEY (`thumbnail`)
+        REFERENCES `directus_files` (`id`) ON DELETE NO ACTION)
+  - collection: page_types
+    meta:
+      collection: page_types
+      icon: null
+      note: null
+      display_template: '{{type}}'
+      hidden: false
+      singleton: false
+      translations: null
+      archive_field: null
+      archive_app_filter: true
+      archive_value: null
+      unarchive_value: null
+      sort_field: null
+      accountability: null
+      color: '#38B765'
+      item_duplication_fields: null
+    schema:
+      name: page_types
+      sql: >-
+        CREATE TABLE `page_types` (`id` integer not null primary key
+        autoincrement, `type` varchar(255) null)
+  - collection: pages
+    meta:
+      collection: pages
+      icon: web_asset
+      note: Page properties
+      display_template: null
+      hidden: false
+      singleton: false
+      translations: null
+      archive_field: null
+      archive_app_filter: true
+      archive_value: null
+      unarchive_value: null
+      sort_field: null
+      accountability: all
+      color: null
+      item_duplication_fields: null
+    schema:
+      name: pages
+      sql: >-
+        CREATE TABLE "pages" (`name` varchar(255) NOT NULL, `user_updated`
+        char(36) NULL, `date_updated` datetime NULL, `auth_protected` boolean
+        NOT NULL DEFAULT '0', `page_type` integer NULL, PRIMARY KEY (`name`),
+        CONSTRAINT `pages_user_updated_foreign` FOREIGN KEY (`user_updated`)
+        REFERENCES `directus_users` (`id`), CONSTRAINT `pages_page_type_foreign`
+        FOREIGN KEY (`page_type`) REFERENCES `page_types` (`id`) ON DELETE SET
+        NULL)
+  - collection: pages_component
+    meta:
+      collection: pages_component
+      icon: import_export
+      note: null
+      display_template: null
+      hidden: true
+      singleton: false
+      translations: null
+      archive_field: null
+      archive_app_filter: true
+      archive_value: null
+      unarchive_value: null
+      sort_field: null
+      accountability: all
+      color: null
+      item_duplication_fields: null
+    schema:
+      name: pages_component
+      sql: >-
+        CREATE TABLE "pages_component" (`id` integer PRIMARY KEY AUTOINCREMENT
+        NOT NULL, `pages_name` varchar(255) NULL, `item` varchar(255) NULL,
+        `collection` varchar(255) NULL, `component_type` integer NULL,
+        CONSTRAINT `pages_component_pages_name_foreign` FOREIGN KEY
+        (`pages_name`) REFERENCES `pages` (`name`) ON DELETE SET NULL,
+        CONSTRAINT `pages_component_component_type_foreign` FOREIGN KEY
+        (`component_type`) REFERENCES `page_types` (`id`) ON DELETE SET NULL)
+  - collection: side_menu_buttons
+    meta:
+      collection: side_menu_buttons
+      icon: dashboard
+      note: null
+      display_template: '{{title}}'
+      hidden: true
+      singleton: false
+      translations: null
+      archive_field: null
+      archive_app_filter: true
+      archive_value: null
+      unarchive_value: null
+      sort_field: null
+      accountability: all
+      color: null
+      item_duplication_fields: null
+    schema:
+      name: side_menu_buttons
+      sql: >-
+        CREATE TABLE "side_menu_buttons" (`id` integer PRIMARY KEY AUTOINCREMENT
+        NOT NULL, `config` integer NULL, `route` varchar(255) NULL, `title`
+        varchar(255) NULL DEFAULT null, `icon` varchar(255) NULL DEFAULT null,
+        `custom_css` text NULL, `custom_class` varchar(255) NULL DEFAULT null,
+        `sort` integer NULL, `action` varchar(255) NULL DEFAULT null, CONSTRAINT
+        `side_menu_buttons_config_foreign` FOREIGN KEY (`config`) REFERENCES
+        `platform_config` (`id`) ON DELETE SET NULL)
+  - collection: live_stream
+    meta:
+      collection: live_stream
+      icon: video_library
+      note: null
+      display_template: null
+      hidden: true
+      singleton: false
+      translations: null
+      archive_field: null
+      archive_app_filter: true
+      archive_value: null
+      unarchive_value: null
+      sort_field: null
+      accountability: all
+      color: '#CD1D1D'
+      item_duplication_fields: null
+    schema:
+      name: live_stream
+      sql: >-
+        CREATE TABLE `live_stream` (`id` char(36) not null, `date_created`
+        datetime null, `date_updated` datetime null, `title` varchar(255) null
+        default 'Transmissão', `is_enabled` boolean not null default '0',
+        `embed_url` varchar(255) null, primary key (`id`))
+  - collection: css_vars
+    meta:
+      collection: css_vars
+      icon: null
+      note: null
+      display_template: null
+      hidden: true
+      singleton: false
+      translations: null
+      archive_field: null
+      archive_app_filter: true
+      archive_value: null
+      unarchive_value: null
+      sort_field: null
+      accountability: all
+      color: null
+      item_duplication_fields: null
+    schema:
+      name: css_vars
+      sql: >-
+        CREATE TABLE "css_vars" (`id` integer PRIMARY KEY AUTOINCREMENT NOT
+        NULL, `var` varchar(255) NULL, `color` varchar(255) NULL, `config`
+        integer NULL, `order` integer NULL, CONSTRAINT `css_vars_config_foreign`
+        FOREIGN KEY (`config`) REFERENCES `platform_config` (`id`) ON DELETE SET
+        NULL)
+  - collection: platform_config
+    meta:
+      collection: platform_config
+      icon: settings_input_composite
+      note: Configuration for platform
+      display_template: null
+      hidden: false
+      singleton: true
+      translations: null
+      archive_field: null
+      archive_app_filter: false
+      archive_value: null
+      unarchive_value: null
+      sort_field: null
+      accountability: all
+      color: '#9A60E1'
+      item_duplication_fields: null
+    schema:
+      name: platform_config
+      sql: >-
+        CREATE TABLE "platform_config" (`id` integer PRIMARY KEY AUTOINCREMENT
+        NOT NULL, `user_updated` varchar(36) NULL DEFAULT null, `date_updated`
+        datetime NULL DEFAULT null, `page_title` varchar(255) NULL, `background`
+        char(36) NULL, `only_admin_can_post` boolean NOT NULL DEFAULT '0',
+        `scrollbar_style` varchar(255) NULL, `logo` char(36) NULL, CONSTRAINT
+        `platform_config_user_updated_foreign` FOREIGN KEY (`user_updated`)
+        REFERENCES `directus_users` (`id`) ON DELETE NO ACTION, CONSTRAINT
+        `platform_config_background_foreign` FOREIGN KEY (`background`)
+        REFERENCES `directus_files` (`id`), CONSTRAINT
+        `platform_config_logo_foreign` FOREIGN KEY (`logo`) REFERENCES
+        `directus_files` (`id`))
+fields:
+  - collection: application_action
+    field: id
+    type: integer
+    schema:
+      name: id
+      table: application_action
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: true
+      has_auto_increment: true
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: application_action
+      field: id
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: application_action
+    field: action
+    type: string
+    schema:
+      name: action
+      table: application_action
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: application_action
+      field: action
+      special: null
+      interface: select-dropdown
+      options:
+        choices:
+          - text: Router
+            value: router
+          - text: NewTab
+            value: newTab
+        icon: arrow_forward
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: application_action
+    field: target
+    type: string
+    schema:
+      name: target
+      table: application_action
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: application_action
+      field: target
+      special: null
+      interface: select-dropdown
+      options:
+        choices:
+          - text: Blank
+            value: _blank
+          - text: Parent
+            value: _parent
+          - text: Top
+            value: _top
+          - text: Self
+            value: _self
+        icon: open_in_browser
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions:
+        - name: Hide when
+          rule:
+            action:
+              _nin:
+                - newTab
+          hidden: true
+      required: false
+  - collection: application_action
+    field: href
+    type: string
+    schema:
+      name: href
+      table: application_action
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: application_action
+      field: href
+      special: null
+      interface: input
+      options:
+        iconLeft: link
+        trim: true
+      display: formatted-value
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: speakers
+    field: id
+    type: integer
+    schema:
+      name: id
+      table: speakers
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: true
+      has_auto_increment: true
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: speakers
+      field: id
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 1
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: speakers
+    field: sort
+    type: integer
+    schema:
+      name: sort
+      table: speakers
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: speakers
+      field: sort
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: true
+      sort: 6
+      width: half
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: speakers
+    field: date_created
+    type: dateTime
+    schema:
+      name: date_created
+      table: speakers
+      data_type: datetime
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: speakers
+      field: date_created
+      special:
+        - date-created
+      interface: datetime
+      options: null
+      display: datetime
+      display_options:
+        relative: true
+      readonly: true
+      hidden: true
+      sort: 5
+      width: half
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: speakers
+    field: thumbnail
+    type: string
+    schema:
+      name: thumbnail
+      table: speakers
+      data_type: varchar
+      default_value: null
+      max_length: 36
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: id
+      foreign_key_table: directus_files
+    meta:
+      collection: speakers
+      field: thumbnail
+      special: null
+      interface: file-image
+      options:
+        folder: 629c4cee-cfbc-4ba5-9f65-475cd48d62f8
+      display: image
+      display_options:
+        circle: true
+      readonly: false
+      hidden: false
+      sort: 3
+      width: full
+      group: null
+      translations: null
+      note: Speaker Thumbnail
+      conditions: null
+      required: false
+  - collection: speakers
+    field: name
+    type: string
+    schema:
+      name: name
+      table: speakers
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: speakers
+      field: name
+      special: null
+      interface: input
+      options:
+        placeholder: Speaker name
+        iconLeft: text_format
+        trim: true
+        clear: true
+      display: formatted-value
+      display_options:
+        formatTitle: true
+      readonly: false
+      hidden: false
+      sort: 2
+      width: full
+      group: null
+      translations: null
+      note: Speaker Full Name
+      conditions: null
+      required: false
+  - collection: speakers
+    field: description
+    type: text
+    schema:
+      name: description
+      table: speakers
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: speakers
+      field: description
+      special: null
+      interface: input-rich-text-html
+      options: {}
+      display: formatted-value
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 4
+      width: full
+      group: null
+      translations: null
+      note: Speaker description
+      conditions: null
+      required: false
+  - collection: page_types
+    field: id
+    type: integer
+    schema:
+      name: id
+      table: page_types
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: true
+      has_auto_increment: true
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: page_types
+      field: id
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: page_types
+    field: type
+    type: string
+    schema:
+      name: type
+      table: page_types
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: page_types
+      field: type
+      special: null
+      interface: input
+      options:
+        placeholder: Live Streaming
+      display: raw
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: pages
+    field: name
+    type: string
+    schema:
+      name: name
+      table: pages
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: true
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: pages
+      field: name
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: pages
+    field: user_updated
+    type: string
+    schema:
+      name: user_updated
+      table: pages
+      data_type: char
+      default_value: null
+      max_length: 36
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: id
+      foreign_key_table: directus_users
+    meta:
+      collection: pages
+      field: user_updated
+      special:
+        - user-updated
+      interface: select-dropdown-m2o
+      options:
+        template: '{{avatar.$thumbnail}} {{first_name}} {{last_name}}'
+      display: user
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: null
+      width: half
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: pages
+    field: date_updated
+    type: dateTime
+    schema:
+      name: date_updated
+      table: pages
+      data_type: datetime
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: pages
+      field: date_updated
+      special:
+        - date-updated
+      interface: datetime
+      options: null
+      display: datetime
+      display_options:
+        relative: true
+      readonly: true
+      hidden: true
+      sort: null
+      width: half
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: pages
+    field: auth_protected
+    type: boolean
+    schema:
+      name: auth_protected
+      table: pages
+      data_type: boolean
+      default_value: false
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: pages
+      field: auth_protected
+      special:
+        - boolean
+      interface: boolean
+      options: null
+      display: boolean
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: Should users be authenticated to access page ?
+      conditions: null
+      required: false
+  - collection: pages
+    field: page_type
+    type: integer
+    schema:
+      name: page_type
+      table: pages
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: id
+      foreign_key_table: page_types
+    meta:
+      collection: pages
+      field: page_type
+      special: null
+      interface: select-dropdown-m2o
+      options:
+        template: "Page Type:\_{{type}}"
+      display: raw
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: pages_component
+    field: id
+    type: integer
+    schema:
+      name: id
+      table: pages_component
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: true
+      has_auto_increment: true
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: pages_component
+      field: id
+      special: null
+      interface: null
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: true
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: pages_component
+    field: pages_name
+    type: string
+    schema:
+      name: pages_name
+      table: pages_component
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: name
+      foreign_key_table: pages
+    meta:
+      collection: pages_component
+      field: pages_name
+      special: null
+      interface: null
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: true
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: pages_component
+    field: item
+    type: string
+    schema:
+      name: item
+      table: pages_component
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: pages_component
+      field: item
+      special: null
+      interface: null
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: true
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: pages_component
+    field: collection
+    type: string
+    schema:
+      name: collection
+      table: pages_component
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: pages_component
+      field: collection
+      special: null
+      interface: null
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: true
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: pages_component
+    field: component_type
+    type: integer
+    schema:
+      name: component_type
+      table: pages_component
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: id
+      foreign_key_table: page_types
+    meta:
+      collection: pages_component
+      field: component_type
+      special: null
+      interface: select-dropdown-m2o
+      options:
+        template: '{{type}}'
+      display: raw
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: side_menu_buttons
+    field: id
+    type: integer
+    schema:
+      name: id
+      table: side_menu_buttons
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: true
+      has_auto_increment: true
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: side_menu_buttons
+      field: id
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 1
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: side_menu_buttons
+    field: config
+    type: integer
+    schema:
+      name: config
+      table: side_menu_buttons
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: id
+      foreign_key_table: platform_config
+    meta:
+      collection: side_menu_buttons
+      field: config
+      special: null
+      interface: null
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: true
+      sort: 5
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: side_menu_buttons
+    field: route
+    type: string
+    schema:
+      name: route
+      table: side_menu_buttons
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: side_menu_buttons
+      field: route
+      special: null
+      interface: input
+      options:
+        placeholder: route
+      display: raw
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 3
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: side_menu_buttons
+    field: title
+    type: string
+    schema:
+      name: title
+      table: side_menu_buttons
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: side_menu_buttons
+      field: title
+      special: null
+      interface: input
+      options:
+        placeholder: Home
+        trim: true
+      display: raw
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 2
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: side_menu_buttons
+    field: icon
+    type: string
+    schema:
+      name: icon
+      table: side_menu_buttons
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: side_menu_buttons
+      field: icon
+      special: null
+      interface: input
+      options:
+        placeholder: Home
+        trim: true
+      display: raw
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 4
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: side_menu_buttons
+    field: custom_css
+    type: text
+    schema:
+      name: custom_css
+      table: side_menu_buttons
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: side_menu_buttons
+      field: custom_css
+      special: null
+      interface: input-code
+      options:
+        language: css
+        template: ''
+      display: formatted-value
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: Custom CSS to Button
+      conditions: null
+      required: false
+  - collection: side_menu_buttons
+    field: custom_class
+    type: string
+    schema:
+      name: custom_class
+      table: side_menu_buttons
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: side_menu_buttons
+      field: custom_class
+      special: null
+      interface: input
+      options:
+        placeholder: Home
+        trim: true
+      display: raw
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: side_menu_buttons
+    field: sort
+    type: integer
+    schema:
+      name: sort
+      table: side_menu_buttons
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: side_menu_buttons
+      field: sort
+      special: null
+      interface: null
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: true
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: side_menu_buttons
+    field: action
+    type: string
+    schema:
+      name: action
+      table: side_menu_buttons
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: side_menu_buttons
+      field: action
+      special: null
+      interface: select-dropdown
+      options:
+        placeholder: Home
+        trim: true
+        choices:
+          - text: Helpdesk
+            value: support
+      display: raw
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: App Hard Coded Actions
+      conditions: null
+      required: false
+  - collection: live_stream
+    field: id
+    type: uuid
+    schema:
+      name: id
+      table: live_stream
+      data_type: char
+      default_value: null
+      max_length: 36
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: true
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: live_stream
+      field: id
+      special:
+        - uuid
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: live_stream
+    field: date_created
+    type: dateTime
+    schema:
+      name: date_created
+      table: live_stream
+      data_type: datetime
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: live_stream
+      field: date_created
+      special:
+        - date-created
+      interface: datetime
+      options: null
+      display: datetime
+      display_options:
+        relative: true
+      readonly: true
+      hidden: true
+      sort: null
+      width: half
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: live_stream
+    field: date_updated
+    type: dateTime
+    schema:
+      name: date_updated
+      table: live_stream
+      data_type: datetime
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: live_stream
+      field: date_updated
+      special:
+        - date-updated
+      interface: datetime
+      options: null
+      display: datetime
+      display_options:
+        relative: true
+      readonly: true
+      hidden: true
+      sort: null
+      width: half
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: live_stream
+    field: title
+    type: string
+    schema:
+      name: title
+      table: live_stream
+      data_type: varchar
+      default_value: Transmissão
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: live_stream
+      field: title
+      special: null
+      interface: input
+      options: null
+      display: raw
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: Live stream title
+      conditions: null
+      required: false
+  - collection: live_stream
+    field: is_enabled
+    type: boolean
+    schema:
+      name: is_enabled
+      table: live_stream
+      data_type: boolean
+      default_value: false
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: live_stream
+      field: is_enabled
+      special:
+        - boolean
+      interface: boolean
+      options: null
+      display: raw
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: live_stream
+    field: embed_url
+    type: string
+    schema:
+      name: embed_url
+      table: live_stream
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: live_stream
+      field: embed_url
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: css_vars
+    field: id
+    type: integer
+    schema:
+      name: id
+      table: css_vars
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: true
+      has_auto_increment: true
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: css_vars
+      field: id
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: css_vars
+    field: var
+    type: string
+    schema:
+      name: var
+      table: css_vars
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: css_vars
+      field: var
+      special: null
+      interface: input
+      options: null
+      display: raw
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: css_vars
+    field: color
+    type: string
+    schema:
+      name: color
+      table: css_vars
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: css_vars
+      field: color
+      special: null
+      interface: select-color
+      options:
+        presets: null
+      display: color
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: css_vars
+    field: config
+    type: integer
+    schema:
+      name: config
+      table: css_vars
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: id
+      foreign_key_table: platform_config
+    meta: null
+  - collection: css_vars
+    field: order
+    type: integer
+    schema:
+      name: order
+      table: css_vars
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: css_vars
+      field: order
+      special: null
+      interface: null
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: true
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: platform_config
+    field: id
+    type: integer
+    schema:
+      name: id
+      table: platform_config
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: true
+      has_auto_increment: true
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: platform_config
+      field: id
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 1
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: platform_config
+    field: user_updated
+    type: string
+    schema:
+      name: user_updated
+      table: platform_config
+      data_type: varchar
+      default_value: null
+      max_length: 36
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: id
+      foreign_key_table: directus_users
+    meta:
+      collection: platform_config
+      field: user_updated
+      special:
+        - user-updated
+      interface: select-dropdown-m2o
+      options:
+        template: '{{avatar.$thumbnail}} {{first_name}} {{last_name}}'
+      display: user
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 2
+      width: half
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: platform_config
+    field: date_updated
+    type: dateTime
+    schema:
+      name: date_updated
+      table: platform_config
+      data_type: datetime
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: platform_config
+      field: date_updated
+      special:
+        - date-updated
+      interface: datetime
+      options: null
+      display: datetime
+      display_options:
+        relative: true
+      readonly: true
+      hidden: true
+      sort: 3
+      width: half
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: platform_config
+    field: page_title
+    type: string
+    schema:
+      name: page_title
+      table: platform_config
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: platform_config
+      field: page_title
+      special: null
+      interface: input
+      options:
+        placeholder: Plataforma NLA Tech
+        iconLeft: title
+        trim: true
+      display: formatted-value
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 4
+      width: full
+      group: null
+      translations: null
+      note: Page title - Browser Tab
+      conditions: null
+      required: false
+  - collection: platform_config
+    field: background
+    type: string
+    schema:
+      name: background
+      table: platform_config
+      data_type: char
+      default_value: null
+      max_length: 36
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: id
+      foreign_key_table: directus_files
+    meta:
+      collection: platform_config
+      field: background
+      special: null
+      interface: file-image
+      options:
+        folder: 43fbef1d-e0fb-4c0d-820f-fc3df5f2fb8d
+      display: image
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 8
+      width: half
+      group: null
+      translations: null
+      note: Page default background
+      conditions: null
+      required: false
+  - collection: platform_config
+    field: only_admin_can_post
+    type: boolean
+    schema:
+      name: only_admin_can_post
+      table: platform_config
+      data_type: boolean
+      default_value: false
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: platform_config
+      field: only_admin_can_post
+      special:
+        - boolean
+      interface: boolean
+      options: null
+      display: boolean
+      display_options:
+        labelOn: Only admin
+        labelOff: Everyone
+      readonly: false
+      hidden: false
+      sort: 6
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: platform_config
+    field: scrollbar_style
+    type: string
+    schema:
+      name: scrollbar_style
+      table: platform_config
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: platform_config
+      field: scrollbar_style
+      special: null
+      interface: input-code
+      options:
+        language: css
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 10
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: platform_config
+    field: logo
+    type: string
+    schema:
+      name: logo
+      table: platform_config
+      data_type: char
+      default_value: null
+      max_length: 36
+      numeric_precision: null
+      numeric_scale: null
+      is_generated: false
+      generation_expression: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      has_auto_increment: false
+      foreign_key_column: id
+      foreign_key_table: directus_files
+    meta:
+      collection: platform_config
+      field: logo
+      special: null
+      interface: file-image
+      options:
+        folder: 43fbef1d-e0fb-4c0d-820f-fc3df5f2fb8d
+      display: image
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 7
+      width: half
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: platform_config
+    field: side_menu
+    type: o2m
+    schema: null
+    meta:
+      collection: platform_config
+      field: side_menu
+      special:
+        - o2m
+      interface: list-o2m
+      options:
+        template: "{{title}}\_Route:\_{{route}}"
+      display: raw
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 5
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: pages
+    field: component
+    type: m2a
+    schema: null
+    meta:
+      collection: pages
+      field: component
+      special:
+        - m2a
+      interface: list-m2a
+      options: null
+      display: raw
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: null
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+  - collection: platform_config
+    field: css_colors
+    type: o2m
+    schema: null
+    meta:
+      collection: platform_config
+      field: css_colors
+      special:
+        - o2m
+      interface: list-o2m
+      options:
+        template: "{{var}}\_:\_{{color}}"
+      display: raw
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 9
+      width: full
+      group: null
+      translations: null
+      note: null
+      conditions: null
+      required: false
+relations:
+  - collection: speakers
+    field: thumbnail
+    related_collection: directus_files
+    schema:
+      table: speakers
+      column: thumbnail
+      foreign_key_table: directus_files
+      foreign_key_column: id
+      on_update: NO ACTION
+      on_delete: NO ACTION
+      constraint_name: null
+    meta:
+      many_collection: speakers
+      many_field: thumbnail
+      one_collection: directus_files
+      one_field: null
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: null
+      sort_field: null
+      one_deselect_action: nullify
+  - collection: pages
+    field: page_type
+    related_collection: page_types
+    schema:
+      table: pages
+      column: page_type
+      foreign_key_table: page_types
+      foreign_key_column: id
+      on_update: NO ACTION
+      on_delete: SET NULL
+      constraint_name: null
+    meta:
+      many_collection: pages
+      many_field: page_type
+      one_collection: page_types
+      one_field: null
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: null
+      sort_field: null
+      one_deselect_action: nullify
+  - collection: pages
+    field: user_updated
+    related_collection: directus_users
+    schema:
+      table: pages
+      column: user_updated
+      foreign_key_table: directus_users
+      foreign_key_column: id
+      on_update: NO ACTION
+      on_delete: NO ACTION
+      constraint_name: null
+    meta:
+      many_collection: pages
+      many_field: user_updated
+      one_collection: directus_users
+      one_field: null
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: null
+      sort_field: null
+      one_deselect_action: nullify
+  - collection: pages_component
+    field: component_type
+    related_collection: page_types
+    schema:
+      table: pages_component
+      column: component_type
+      foreign_key_table: page_types
+      foreign_key_column: id
+      on_update: NO ACTION
+      on_delete: SET NULL
+      constraint_name: null
+    meta:
+      many_collection: pages_component
+      many_field: component_type
+      one_collection: page_types
+      one_field: null
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: null
+      sort_field: null
+      one_deselect_action: nullify
+  - collection: pages_component
+    field: pages_name
+    related_collection: pages
+    schema:
+      table: pages_component
+      column: pages_name
+      foreign_key_table: pages
+      foreign_key_column: name
+      on_update: NO ACTION
+      on_delete: SET NULL
+      constraint_name: null
+    meta:
+      many_collection: pages_component
+      many_field: pages_name
+      one_collection: pages
+      one_field: component
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: item
+      sort_field: null
+      one_deselect_action: nullify
+  - collection: side_menu_buttons
+    field: config
+    related_collection: platform_config
+    schema:
+      table: side_menu_buttons
+      column: config
+      foreign_key_table: platform_config
+      foreign_key_column: id
+      on_update: NO ACTION
+      on_delete: SET NULL
+      constraint_name: null
+    meta:
+      many_collection: side_menu_buttons
+      many_field: config
+      one_collection: platform_config
+      one_field: side_menu
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: null
+      sort_field: sort
+      one_deselect_action: nullify
+  - collection: css_vars
+    field: config
+    related_collection: platform_config
+    schema:
+      table: css_vars
+      column: config
+      foreign_key_table: platform_config
+      foreign_key_column: id
+      on_update: NO ACTION
+      on_delete: SET NULL
+      constraint_name: null
+    meta:
+      many_collection: css_vars
+      many_field: config
+      one_collection: platform_config
+      one_field: css_colors
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: null
+      sort_field: order
+      one_deselect_action: nullify
+  - collection: platform_config
+    field: logo
+    related_collection: directus_files
+    schema:
+      table: platform_config
+      column: logo
+      foreign_key_table: directus_files
+      foreign_key_column: id
+      on_update: NO ACTION
+      on_delete: NO ACTION
+      constraint_name: null
+    meta:
+      many_collection: platform_config
+      many_field: logo
+      one_collection: directus_files
+      one_field: null
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: null
+      sort_field: null
+      one_deselect_action: nullify
+  - collection: platform_config
+    field: background
+    related_collection: directus_files
+    schema:
+      table: platform_config
+      column: background
+      foreign_key_table: directus_files
+      foreign_key_column: id
+      on_update: NO ACTION
+      on_delete: NO ACTION
+      constraint_name: null
+    meta:
+      many_collection: platform_config
+      many_field: background
+      one_collection: directus_files
+      one_field: null
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: null
+      sort_field: null
+      one_deselect_action: nullify
+  - collection: platform_config
+    field: user_updated
+    related_collection: directus_users
+    schema:
+      table: platform_config
+      column: user_updated
+      foreign_key_table: directus_users
+      foreign_key_column: id
+      on_update: NO ACTION
+      on_delete: NO ACTION
+      constraint_name: null
+    meta:
+      many_collection: platform_config
+      many_field: user_updated
+      one_collection: directus_users
+      one_field: null
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: null
+      sort_field: null
+      one_deselect_action: nullify
+  - collection: pages_component
+    field: item
+    related_collection: null
+    schema: null
+    meta:
+      many_collection: pages_component
+      many_field: item
+      one_collection: null
+      one_field: null
+      one_collection_field: collection
+      one_allowed_collections: ''
+      junction_field: pages_name
+      sort_field: null
+      one_deselect_action: nullify

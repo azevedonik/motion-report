@@ -8,7 +8,8 @@
     "develop": "yarn directus start",
     "build": "yarn dump:model",
     "dump:model": "directus schema snapshot ./schema.yaml --format yaml",
-    "migrate:model": "directus schema apply /path/to/schema.yaml"
+    "migrate:model": "directus schema apply ./schema.yaml",
+    "bootstrap" : "directus bootstrap && yarn migrate:model" 
   },
   "keywords": [],
   "author": "",
